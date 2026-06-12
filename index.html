@@ -1,0 +1,1972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Belmin Drive - Click Your Way to Travel</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+:root {
+    --bg-color: #050705;
+    --card-bg: #0a0f0a;
+    --primary-color: #7cb342;
+    --primary-hover: #8bc34a;
+    --text-main: #ffffff;
+    --text-muted: #a0aab2;
+    --border-color: rgba(124, 179, 66, 0.1);
+    --nav-bg: rgba(5, 7, 5, 0.9);
+    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    overflow-x: hidden;
+    cursor: none; /* Hide default cursor */
+}
+
+/* Custom cursor */
+.cursor-glow {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease-out, opacity 0.3s ease;
+    opacity: 0;
+    box-shadow: 0 0 15px var(--primary-color);
+}
+.cursor-glow::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--primary-color);
+    border-radius: 50%;
+    opacity: 0.5;
+}
+.cursor-glow.active {
+    opacity: 1;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-color); 
+}
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color); 
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-hover); 
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition);
+}
+
+ul {
+    list-style: none;
+}
+
+/* Typography */
+h1, h2, h3, h4 {
+    font-weight: 700;
+}
+h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+h2 span {
+    color: var(--primary-color);
+}
+.subtitle {
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+}
+
+/* Buttons */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--primary-color);
+    color: #fff;
+    padding: 0.8rem 1.8rem;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 1rem;
+}
+.btn-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+}
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: var(--text-main);
+    font-weight: 500;
+}
+.btn-secondary .play-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    transition: var(--transition);
+}
+.btn-secondary:hover .play-icon {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+/* Header */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.5rem 5%;
+    z-index: 1000;
+    transition: var(--transition);
+    background: #000000;
+}
+header.scrolled {
+    background: #000000;
+    backdrop-filter: blur(10px);
+    padding: 1rem 5%;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.logo img, .footer-logo img {
+    height: 80px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+    filter: brightness(1.5);
+}
+
+.navbar {
+    display: flex;
+    gap: 2rem;
+}
+
+.navbar a {
+    font-size: 0.95rem;
+    font-weight: 400;
+    position: relative;
+}
+
+.navbar a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary-color);
+    transition: var(--transition);
+}
+
+.navbar a:hover::after,
+.navbar a.active::after {
+    width: 100%;
+}
+.navbar a.active {
+    color: var(--primary-color);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.contact-info {
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.social-icons {
+    display: flex;
+    gap: 1rem;
+    border-left: 1px solid var(--border-color);
+    padding-left: 1.5rem;
+}
+
+.social-icons a:hover {
+    color: var(--primary-color);
+}
+
+.menu-toggle {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0 5%;
+    padding-top: 80px;
+    overflow: hidden;
+}
+
+.hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.hero-bg video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+}
+
+.hero-bg .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+    z-index: 1;
+}
+
+.hero-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.hero-text-area {
+    max-width: 600px;
+}
+
+.hero-text-area h1 {
+    font-size: 4.5rem;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+}
+
+.hero-text-area .desc {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.hero-features {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: rgba(22, 28, 24, 0.6);
+    backdrop-filter: blur(10px);
+    padding: 1.5rem;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+}
+
+.feature-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    transition: var(--transition);
+}
+
+.feature-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateX(-5px);
+}
+
+.feature-card .icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(124, 179, 66, 0.1);
+    color: var(--primary-color);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.feature-card h4 {
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
+}
+
+.feature-card p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* Sections Global */
+section {
+    padding: 5rem 5%;
+}
+.section-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+}
+
+/* About Us */
+.about-image {
+    position: relative;
+    flex: 1;
+}
+.about-image img {
+    width: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+}
+.experience-badge {
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 15px;
+    border: 1px solid var(--border-color);
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.experience-badge h3 {
+    color: var(--primary-color);
+    font-size: 2rem;
+}
+.experience-badge p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.about-content {
+    flex: 1;
+}
+.about-content p {
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+}
+.about-list {
+    margin-bottom: 2rem;
+}
+.about-list li {
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+.about-list i {
+    color: var(--primary-color);
+}
+
+/* Gallery / Destinations */
+.destinations .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    max-width: 1400px;
+    margin: 0 auto 3rem auto;
+}
+.view-all {
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+}
+.view-all:hover {
+    gap: 0.8rem;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.gallery-item {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    aspect-ratio: 4/3;
+    border: 1px solid var(--border-color);
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.5s ease, border-color 0.4s ease;
+}
+
+.gallery-item:hover {
+    transform: scale(1.03);
+    box-shadow: 0 15px 40px rgba(124, 179, 66, 0.15);
+    border-color: rgba(124, 179, 66, 0.4);
+    z-index: 2;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.9);
+    transition: transform 0.6s ease, filter 0.5s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.08);
+    filter: brightness(1);
+}
+
+.load-more-btn {
+    display: block;
+    margin: 2.5rem auto 0;
+    padding: 0.9rem 2.5rem;
+    background: rgba(124, 179, 66, 0.1);
+    color: var(--primary-color);
+    border: 1px solid rgba(124, 179, 66, 0.25);
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    transition: var(--transition);
+}
+.load-more-btn:hover {
+    background: var(--primary-color);
+    color: #fff;
+    transform: translateY(-2px);
+}
+.gallery-count {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: 1rem;
+}
+
+/* Lightbox */
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.95);
+    backdrop-filter: blur(8px);
+    align-items: center;
+    justify-content: center;
+}
+.lightbox.active {
+    display: flex;
+}
+.lightbox-content {
+    display: block;
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 8px;
+    animation: zoomIn 0.3s ease;
+    user-select: none;
+}
+@keyframes zoomIn {
+    from {transform: scale(0.9); opacity: 0;}
+    to {transform: scale(1); opacity: 1;}
+}
+.close-lightbox {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #f1f1f1;
+    font-size: 36px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+    z-index: 2001;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+}
+.close-lightbox:hover {
+    color: var(--primary-color);
+    background: rgba(255,255,255,0.2);
+}
+.lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    transition: 0.3s;
+    z-index: 2001;
+    border: none;
+}
+.lightbox-nav:hover {
+    background: var(--primary-color);
+}
+.lightbox-prev { left: 20px; }
+.lightbox-next { right: 20px; }
+.lightbox-counter {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,255,255,0.7);
+    font-size: 0.9rem;
+    z-index: 2001;
+}
+
+/* Reviews */
+.reviews-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 3rem auto 0 auto;
+}
+.review-card {
+    background: var(--card-bg);
+    padding: 2.5rem 2rem;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+.review-card::before {
+    content: '\201C';
+    position: absolute;
+    top: 10px;
+    left: 18px;
+    font-size: 5rem;
+    color: rgba(124, 179, 66, 0.08);
+    font-family: Georgia, serif;
+    line-height: 1;
+    pointer-events: none;
+}
+.review-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(124, 179, 66, 0.3);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+.stars {
+    color: #ffc107;
+    margin-bottom: 1.2rem;
+    font-size: 1.1rem;
+}
+.review-text {
+    color: var(--text-muted);
+    line-height: 1.8;
+    font-style: italic;
+    font-size: 1.05rem;
+}
+
+/* Bottom Banner */
+.bottom-banner {
+    background: var(--card-bg);
+    margin: 0 5%;
+    border-radius: 20px;
+    padding: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--border-color);
+    flex-wrap: wrap;
+    gap: 3rem;
+}
+.stats {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+}
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.stat-item i {
+    font-size: 2rem;
+    color: var(--primary-color);
+}
+.stat-item h4 {
+    font-size: 1.5rem;
+}
+.stat-item p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.newsletter {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+.news-text {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.news-icon {
+    width: 45px;
+    height: 45px;
+    background: rgba(124, 179, 66, 0.1);
+    color: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+.news-text p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+.news-form-container {
+    display: flex;
+    flex-direction: column;
+}
+.news-form {
+    display: flex;
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    padding: 5px;
+}
+.news-form input {
+    background: transparent;
+    border: none;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    outline: none;
+}
+.news-form button {
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+.news-form button:hover {
+    background: var(--primary-hover);
+}
+
+/* Contact Section Redesign */
+.contact {
+    position: relative;
+    padding: 8rem 5%;
+    background: radial-gradient(circle at top right, rgba(124, 179, 66, 0.07), transparent 40%),
+                radial-gradient(circle at bottom left, rgba(124, 179, 66, 0.05), transparent 40%);
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.5rem;
+    max-width: 1400px;
+    margin: 4rem auto 0 auto;
+}
+
+.contact-card {
+    background: var(--card-bg);
+    padding: 3rem 2rem;
+    border-radius: 24px;
+    border: 1px solid var(--border-color);
+    text-align: center;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.contact-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary-color) 0%, transparent 100%);
+    opacity: 0;
+    transition: var(--transition);
+    z-index: 0;
+}
+
+.contact-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary-color);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.contact-card:hover::before {
+    opacity: 0.03;
+}
+
+.contact-card .icon-wrapper {
+    width: 80px;
+    height: 80px;
+    background: rgba(124, 179, 66, 0.1);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    transition: var(--transition);
+    position: relative;
+    z-index: 1;
+}
+
+.contact-card:hover .icon-wrapper {
+    background: var(--primary-color);
+    color: #fff;
+    transform: scale(1.1) rotate(5deg);
+    animation: pulseIcon 2s infinite;
+}
+
+@keyframes pulseIcon {
+    0% { box-shadow: 0 0 0 0 rgba(124, 179, 66, 0.4); }
+    70% { box-shadow: 0 0 0 20px rgba(124, 179, 66, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(124, 179, 66, 0); }
+}
+
+.contact-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.contact-card p {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    position: relative;
+    z-index: 1;
+}
+
+.contact-card a {
+    color: var(--primary-color);
+    font-size: 1.15rem;
+    font-weight: 600;
+    position: relative;
+    z-index: 1;
+    transition: var(--transition);
+}
+
+.contact-card a:hover {
+    color: var(--primary-hover);
+    text-shadow: 0 0 15px rgba(124, 179, 66, 0.3);
+}
+
+.contact-card .action-btn {
+    margin-top: auto;
+    padding: 0.9rem 2.5rem;
+    background: rgba(124, 179, 66, 0.15);
+    color: var(--primary-color);
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: var(--transition);
+    z-index: 1;
+    border: 1px solid rgba(124, 179, 66, 0.2);
+}
+
+.contact-card:hover .action-btn {
+    background: var(--primary-color);
+    color: #fff;
+    box-shadow: 0 8px 25px rgba(124, 179, 66, 0.3);
+    transform: scale(1.05);
+}
+
+.social-platforms {
+    display: flex;
+    gap: 2rem;
+    margin-top: 4rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.social-btn {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    background: var(--card-bg);
+    border: 2px solid rgba(124, 179, 66, 0.25);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    color: var(--text-muted);
+    box-shadow: 0 0 20px rgba(124, 179, 66, 0.05);
+}
+
+.social-btn::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid rgba(124, 179, 66, 0.15);
+    animation: socialPulse 2.5s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes socialPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.25); opacity: 0; }
+}
+
+.social-btn:hover {
+    transform: translateY(-8px) scale(1.15);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+.social-btn.instagram { border-color: rgba(225, 48, 108, 0.3); }
+.social-btn.instagram::after { border-color: rgba(225, 48, 108, 0.2); }
+.social-btn.instagram:hover { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%); }
+
+.social-btn.facebook { border-color: rgba(24, 119, 242, 0.3); }
+.social-btn.facebook::after { border-color: rgba(24, 119, 242, 0.2); }
+.social-btn.facebook:hover { background: #1877f2; }
+
+.social-btn.whatsapp { border-color: rgba(37, 211, 102, 0.3); }
+.social-btn.whatsapp::after { border-color: rgba(37, 211, 102, 0.2); }
+.social-btn.whatsapp:hover { background: #25d366; }
+
+.social-btn.youtube { border-color: rgba(255, 0, 0, 0.3); }
+.social-btn.youtube::after { border-color: rgba(255, 0, 0, 0.2); }
+.social-btn.youtube:hover { background: #ff0000; }
+
+.social-btn i {
+    transition: var(--transition);
+    position: relative;
+    z-index: 1;
+}
+
+.social-btn:hover i {
+    animation: wiggle 0.5s ease-in-out;
+}
+
+@keyframes wiggle {
+    0%, 100% { transform: rotate(0); }
+    25% { transform: rotate(15deg); }
+    75% { transform: rotate(-15deg); }
+}
+
+/* Social Label Under Buttons */
+.social-btn-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+}
+.social-btn-wrapper span {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: var(--transition);
+}
+.social-btn-wrapper:hover span {
+    color: var(--primary-color);
+}
+
+/* Footer */
+footer {
+    background: #090c0a;
+    padding: 3rem 5% 1.5rem 5%;
+    border-top: 1px solid var(--border-color);
+}
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+.footer-logo {
+    margin-bottom: 1.5rem;
+}
+.footer-logo h2 span {
+    color: var(--primary-color);
+}
+.footer-logo p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+.footer-links a {
+    color: var(--text-muted);
+}
+.footer-links a:hover {
+    color: var(--primary-color);
+}
+.copyright {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 1.5rem;
+}
+
+/* Text Utility */
+.text-center { text-align: center; }
+
+/* Scroll Progress Bar */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(to right, var(--primary-color), #a5d610);
+    z-index: 9999;
+    transition: width 0.05s linear;
+    box-shadow: 0 0 10px rgba(124, 179, 66, 0.5);
+}
+
+/* Floating Particles Canvas */
+#particles-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+}
+
+/* Back to Top Button */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 5px 20px rgba(124, 179, 66, 0.3);
+    border: none;
+}
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+.back-to-top:hover {
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 10px 30px rgba(124, 179, 66, 0.5);
+}
+
+/* Since 2017 Badge */
+.since-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(124, 179, 66, 0.1);
+    border: 1px solid rgba(124, 179, 66, 0.25);
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    color: var(--primary-color);
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    animation: fadeUp 0.8s ease forwards;
+    animation-delay: 0.05s;
+    opacity: 0;
+}
+.since-badge i {
+    font-size: 0.75rem;
+}
+
+/* Tilt card 3D effect */
+.tilt-card {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+
+/* Animations */
+.animate-up {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUp 0.8s ease forwards;
+}
+.animate-right {
+    opacity: 0;
+    transform: translateX(30px);
+    animation: fadeRight 0.8s ease forwards;
+}
+
+@keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeRight {
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+                filter 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    filter: blur(3px);
+    will-change: opacity, transform, filter;
+}
+.scroll-reveal.right {
+    transform: translateX(60px);
+}
+.scroll-reveal.left {
+    transform: translateX(-60px);
+}
+.scroll-reveal.scale-up {
+    transform: scale(0.9);
+}
+.scroll-reveal.visible {
+    opacity: 1;
+    transform: translate(0) scale(1);
+    filter: blur(0);
+}
+
+/* Staggered children animation */
+.stagger-children .scroll-reveal:nth-child(1) { transition-delay: 0s; }
+.stagger-children .scroll-reveal:nth-child(2) { transition-delay: 0.12s; }
+.stagger-children .scroll-reveal:nth-child(3) { transition-delay: 0.24s; }
+.stagger-children .scroll-reveal:nth-child(4) { transition-delay: 0.36s; }
+.stagger-children .scroll-reveal:nth-child(5) { transition-delay: 0.48s; }
+.stagger-children .scroll-reveal:nth-child(6) { transition-delay: 0.60s; }
+
+/* Section titles entrance */
+.section-header h2,
+.section-header .subtitle {
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+/* Smooth section divider */
+.section-divider {
+    width: 0;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--primary-color), transparent);
+    margin: 0 auto 3rem auto;
+    transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    max-width: 200px;
+}
+.section-divider.visible {
+    width: 100%;
+}
+
+/* Parallax-like float for sections */
+@keyframes gentleFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+.feature-card {
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s ease;
+}
+
+/* Counter animation helper */
+.stat-item h4 {
+    transition: opacity 0.5s ease;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .hero-content {
+        flex-direction: column;
+        justify-content: center;
+        gap: 3rem;
+        text-align: center;
+        padding-top: 4rem;
+    }
+    .hero-text-area {
+        max-width: 100%;
+    }
+    .hero-text-area h1 {
+        font-size: 3.5rem;
+    }
+    .hero-buttons {
+        justify-content: center;
+    }
+    .hero-features {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .section-container {
+        flex-direction: column;
+    }
+    .experience-badge {
+        right: 20px;
+    }
+    .destinations .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    .bottom-banner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+    .navbar {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--nav-bg);
+        backdrop-filter: blur(10px);
+        flex-direction: column;
+        gap: 0;
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+        transition: 0.4s ease-in-out;
+    }
+    .navbar.active {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+    .navbar a {
+        padding: 1rem 5%;
+        border-bottom: 1px solid var(--border-color);
+        display: block;
+    }
+    .header-right {
+        gap: 1rem;
+    }
+    .contact-info, .social-icons {
+        display: none;
+    }
+    .hero-text-area h1 {
+        font-size: 2.5rem;
+    }
+    .feature-card {
+        width: calc(50% - 0.5rem);
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-buttons {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .btn-primary, .btn-secondary {
+        width: 100%;
+        justify-content: center;
+    }
+    .feature-card {
+        width: 100%;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+    <!-- Cursor Glow -->
+    <div class="cursor-glow" id="cursorGlow"></div>
+    <!-- Floating Particles -->
+    <canvas id="particles-canvas"></canvas>
+    
+    <header id="header">
+        <div class="header-container">
+            <a href="#" class="logo">
+                <img src="images/Logo-word-nobg.png" alt="Belmin Drive Logo">
+            </a>
+            <nav class="navbar">
+                <a href="#home" class="active">Home</a>
+                <a href="#about">About Us</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#reviews">Reviews</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <div class="header-right">
+                <div class="contact-info">
+                    <span><i class="fa-solid fa-phone"></i> +91 82815 42813</span>
+                </div>
+                <div class="social-icons">
+                    <a href="https://www.instagram.com/belmin_drive_clicks/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/belmin.kallathu" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="https://www.youtube.com/@belmin_drive_clicks" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="https://wa.me/918281542813" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+                <a href="#contact" class="btn-primary">Book Now <i class="fa-solid fa-arrow-right"></i></a>
+                <div class="menu-toggle"><i class="fa-solid fa-bars"></i></div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-bg">
+                <video autoplay muted loop playsinline>
+                    <source src="images/herovideo.mp4" type="video/mp4">
+                </video>
+                <div class="hero-overlay"></div>
+            </div>
+            
+            <div class="hero-content">
+                <div class="hero-text-area">
+                    <div class="since-badge"><i class="fa-solid fa-clock"></i> SINCE 2017</div>
+                    <p class="subtitle animate-up" style="animation-delay: 0.1s;"><i class="fa-solid fa-leaf"></i> EXPLORE NATURE. DISCOVER YOURSELF.</p>
+                    <h1 class="animate-up" style="animation-delay: 0.2s;">Your Journey,<br>Our <span>Priority</span></h1>
+                    <p class="desc animate-up" style="animation-delay: 0.3s;">From serene hills to exotic destinations,<br>we make every journey memorable.</p>
+                    <div class="hero-buttons animate-up" style="animation-delay: 0.4s;">
+                        <a href="#contact" class="btn-primary">Contact us <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="hero-features animate-right" style="animation-delay: 0.5s;">
+                    <div class="feature-card">
+                        <div class="icon"><i class="fa-solid fa-tags"></i></div>
+                        <div class="text">
+                            <h4>Best Price</h4>
+                            <p>Guaranteed</p>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i class="fa-solid fa-users"></i></div>
+                        <div class="text">
+                            <h4>Trusted by</h4>
+                            <p>2K+ Travelers</p>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i class="fa-solid fa-headset"></i></div>
+                        <div class="text">
+                            <h4>24/7 Support</h4>
+                            <p>We're here</p>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i class="fa-solid fa-shield-halved"></i></div>
+                        <div class="text">
+                            <h4>Safe & Secure</h4>
+                            <p>Journey</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Us Section -->
+        <section id="about" class="about">
+            <div class="section-container">
+                <div class="about-image scroll-reveal">
+                    <img src="images/photo (9).JPG" alt="About Belmin Drive">
+                    <div class="experience-badge">
+                        <h3>10+</h3>
+                        <p>Years Experience</p>
+                    </div>
+                </div>
+                <div class="about-content scroll-reveal right">
+                    <p class="subtitle"><i class="fa-solid fa-leaf"></i> ABOUT BELMIN DRIVE</p>
+                    <h2>Travel Green<br><span>Travel Clean</span></h2>
+                    <p>We promote eco-friendly travel and responsible tourism to protect the beautiful places we explore. Our mission is to provide unforgettable experiences while maintaining the natural beauty of our destinations.</p>
+                    <p>Whether you're looking for a peaceful retreat in the serene hills or an adventurous journey through exotic landscapes, Belmin Drive ensures a safe, secure, and memorable trip.</p>
+                    <ul class="about-list">
+                        <li><i class="fa-solid fa-check"></i> Handpicked Destinations</li>
+                        <li><i class="fa-solid fa-check"></i> Eco-Friendly Tours</li>
+                        <li><i class="fa-solid fa-check"></i> Expert Local Guides</li>
+                    </ul>
+                    <a href="#contact" class="btn-primary">Know More <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="destinations">
+            <div class="section-header scroll-reveal">
+                <div>
+                    <p class="subtitle"><i class="fa-solid fa-camera-retro"></i> OUR CAPTURES</p>
+                    <h2>Our <span>Gallery</span></h2>
+                </div>
+                <a href="https://www.instagram.com/belmin_drive_clicks/" target="_blank" class="view-all">Follow on Instagram <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="section-divider"></div>
+            <div class="gallery-grid stagger-children" id="galleryGrid"></div>
+            <button class="load-more-btn" id="loadMoreBtn" onclick="loadMorePhotos()">Load More <i class="fa-solid fa-angles-down"></i></button>
+            <p class="gallery-count" id="galleryCount"></p>
+        </section>
+
+        <!-- Reviews Section -->
+        <section id="reviews" class="reviews">
+            <div class="section-header text-center scroll-reveal">
+                <p class="subtitle"><i class="fa-solid fa-star"></i> TESTIMONIALS</p>
+                <h2>What Our <span>Customers</span> Say</h2>
+            </div>
+            <div class="section-divider"></div>
+            <div class="reviews-container stagger-children">
+                <div class="review-card scroll-reveal">
+                    <div class="stars">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="review-text">"An absolute incredible experience! Belmin Drive organized everything perfectly. Our trip to Munnar was hassle-free and truly memorable."</p>
+                </div>
+                <div class="review-card scroll-reveal">
+                    <div class="stars">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                    </div>
+                    <p class="review-text">"The eco-friendly approach is what drew me in. Exceptional service, 24/7 support exactly as promised. Highly recommend them for Kerala tours."</p>
+                </div>
+                <div class="review-card scroll-reveal">
+                    <div class="stars">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="review-text">"Best price guaranteed indeed! We compared many agencies, but Belmin Drive offered the best itinerary at the most competitive price."</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats and Newsletter Banner -->
+        <section class="bottom-banner scroll-reveal">
+            <div class="stats">
+                <div class="stat-item">
+                    <i class="fa-solid fa-suitcase-rolling"></i>
+                    <div>
+                        <h4>150+</h4>
+                        <p>Tour Packages</p>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <i class="fa-solid fa-users-viewfinder"></i>
+                    <div>
+                        <h4>5000+</h4>
+                        <p>Happy Travelers</p>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                    <div>
+                        <h4>50+</h4>
+                        <p>Destinations</p>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <i class="fa-solid fa-award"></i>
+                    <div>
+                        <h4>100%</h4>
+                        <p>Satisfaction</p>
+                    </div>
+                </div>
+            </div>
+            <div class="newsletter">
+                <div class="news-text">
+                    <div class="news-icon"><i class="fa-solid fa-envelope"></i></div>
+                    <div>
+                        <h4>Subscribe to our newsletter</h4>
+                        <p>Get updates on new offers and destinations</p>
+                    </div>
+                </div>
+                <div class="news-form-container">
+                    <form class="news-form" id="newsletterForm">
+                        <input type="email" placeholder="Enter your email" required id="newsEmail">
+                        <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+                    </form>
+                    <div id="news-success" style="display: none; color: var(--primary-color); margin-top: 10px; font-size: 0.9rem;">
+                        <i class="fa-solid fa-circle-check"></i> Subscribed successfully!
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact">
+            <div class="section-header text-center scroll-reveal">
+                <p class="subtitle"><i class="fa-solid fa-envelope-open-text"></i> GET IN TOUCH</p>
+                <h2>Connect With <span>Us</span></h2>
+            </div>
+            <div class="section-divider"></div>
+            <div class="contact-grid stagger-children">
+                <!-- Phone Card -->
+                <div class="contact-card scroll-reveal">
+                    <div class="icon-wrapper">
+                        <i class="fa-solid fa-phone-volume"></i>
+                    </div>
+                    <h3>Call Us Directly</h3>
+                    <p>Have questions? We're just a call away.</p>
+                    <a href="tel:+918281542813">+91 82815 42813</a>
+                    <a href="tel:+918281542813" class="action-btn">Call Now</a>
+                </div>
+
+                <!-- WhatsApp Card -->
+                <div class="contact-card scroll-reveal" style="animation-delay: 0.1s;">
+                    <div class="icon-wrapper" style="color: #25d366;">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                    <h3>WhatsApp Us</h3>
+                    <p>Fast and easy communication.</p>
+                    <a href="https://wa.me/918281542813" target="_blank">Chat with us</a>
+                    <a href="https://wa.me/918281542813" target="_blank" class="action-btn">Message Now</a>
+                </div>
+
+                <!-- Email Card -->
+                <div class="contact-card scroll-reveal" style="animation-delay: 0.2s;">
+                    <div class="icon-wrapper">
+                        <i class="fa-solid fa-envelope-open"></i>
+                    </div>
+                    <h3>Email Us</h3>
+                    <p>For bookings and inquiries.</p>
+                    <a href="mailto:belmindriveclick@gmail.com">belmindriveclick@gmail.com</a>
+                    <a href="mailto:belmindriveclick@gmail.com" class="action-btn">Send Email</a>
+                </div>
+            </div>
+
+            <div class="social-platforms scroll-reveal">
+                <div class="social-btn-wrapper">
+                    <a href="https://www.instagram.com/belmin_drive_clicks/" target="_blank" class="social-btn instagram" title="Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <span>Instagram</span>
+                </div>
+                <div class="social-btn-wrapper">
+                    <a href="https://www.facebook.com/belmin.kallathu" target="_blank" class="social-btn facebook" title="Facebook">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <span>Facebook</span>
+                
+                
+                </div>
+                <div class="social-btn-wrapper">
+                    <a href="https://www.youtube.com/@belmin_drive_clicks" target="_blank" class="social-btn youtube" title="YouTube">
+                        <i class="fa-brands fa-youtube"></i>
+                    </a>
+                    <span>YouTube</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" title="Back to Top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="images/Logo-word-nobg.png" alt="Belmin Drive Logo" style="height: 60px; margin-bottom: 1rem;">
+                <p>Click Your Way to Travel &middot; <strong style="color: var(--primary-color);">Since 2017</strong></p>
+            </div>
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#about">About Us</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#reviews">Reviews</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <p class="copyright">&copy; 2026 Belmin Drive. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Lightbox for Gallery -->
+    <div id="lightbox" class="lightbox">
+        <span class="close-lightbox" onclick="closeLightbox()">&times;</span>
+        <button class="lightbox-nav lightbox-prev" onclick="navigateLightbox(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+        <img class="lightbox-content" id="lightbox-img">
+        <button class="lightbox-nav lightbox-next" onclick="navigateLightbox(1)"><i class="fa-solid fa-chevron-right"></i></button>
+        <div class="lightbox-counter" id="lightboxCounter"></div>
+    </div>
+
+    <script>
+// Scroll to top on refresh
+window.onbeforeunload = function () {
+    window.scrollTo(0, 0);
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Header scroll effect
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+
+    // Mobile Menu Toggle
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navbar = document.querySelector('.navbar');
+
+    menuToggle.addEventListener('click', () => {
+        navbar.classList.toggle('active');
+        const icon = menuToggle.querySelector('i');
+        if (navbar.classList.contains('active')) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-xmark');
+        } else {
+            icon.classList.remove('fa-xmark');
+            icon.classList.add('fa-bars');
+        }
+    });
+
+    // Close menu when clicking a link
+    const navLinks = document.querySelectorAll('.navbar a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            navbar.classList.remove('active');
+            const icon = menuToggle.querySelector('i');
+            icon.classList.remove('fa-xmark');
+            icon.classList.add('fa-bars');
+            
+            // Set active class
+            navLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+        });
+    });
+
+    // Scroll Reveal Animation — Enhanced
+    const revealElements = document.querySelectorAll('.scroll-reveal, .section-divider');
+    
+    const revealOptions = {
+        threshold: 0.12,
+        rootMargin: "0px 0px -60px 0px"
+    };
+
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, revealOptions);
+
+    revealElements.forEach(el => {
+        revealObserver.observe(el);
+    });
+
+    // Animated counters for stat items
+    const statItems = document.querySelectorAll('.stat-item h4');
+    const counterObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const el = entry.target;
+                const text = el.textContent;
+                const match = text.match(/(\d+)/);
+                if (match) {
+                    const target = parseInt(match[1]);
+                    const suffix = text.replace(match[1], '');
+                    let current = 0;
+                    const duration = 1800;
+                    const step = Math.max(1, Math.floor(target / 60));
+                    const interval = duration / (target / step);
+                    const counter = setInterval(() => {
+                        current += step;
+                        if (current >= target) {
+                            current = target;
+                            clearInterval(counter);
+                        }
+                        el.textContent = current + suffix;
+                    }, interval);
+                }
+                observer.unobserve(el);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    statItems.forEach(el => counterObserver.observe(el));
+
+    // Smooth parallax on hero content
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY;
+        const heroContent = document.querySelector('.hero-content');
+        if (heroContent && scrolled < window.innerHeight) {
+            const opacity = 1 - (scrolled / (window.innerHeight * 0.8));
+            const translateY = scrolled * 0.3;
+            heroContent.style.opacity = Math.max(0, opacity);
+            heroContent.style.transform = `translateY(${translateY}px)`;
+        }
+    });
+
+    // Active nav section tracking on scroll
+    const sections = document.querySelectorAll('section[id]');
+    window.addEventListener('scroll', () => {
+        const scrollPos = window.scrollY + 200;
+        sections.forEach(section => {
+            const top = section.offsetTop;
+            const height = section.offsetHeight;
+            const id = section.getAttribute('id');
+            const navLink = document.querySelector(`.navbar a[href="#${id}"]`);
+            if (navLink) {
+                if (scrollPos >= top && scrollPos < top + height) {
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    navLink.classList.add('active');
+                }
+            }
+        });
+    });
+
+    // Dynamic Newsletter Form (No Backend)
+    const newsletterForm = document.getElementById('newsletterForm');
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const emailInput = document.getElementById('newsEmail');
+            emailInput.value = '';
+            const successMsg = document.getElementById('news-success');
+            successMsg.style.display = 'block';
+            successMsg.style.animation = 'fadeUp 0.3s ease';
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+            }, 3000);
+        });
+    }
+
+});
+
+// ========== DYNAMIC GALLERY ==========
+const allPhotos = [
+    '1.JPG', '2.png', '3.JPG', '4.JPG', '5.JPG', '7.jpeg', '8.jpeg', '9.jpeg', '10.jpeg', '11.JPG', '12.jpg', '13.jpg', '14.jpg', '15.jpg'
+];
+
+const BATCH_SIZE = 20;
+let loadedCount = 0;
+const galleryGrid = document.getElementById('galleryGrid');
+const loadMoreBtn = document.getElementById('loadMoreBtn');
+const galleryCountEl = document.getElementById('galleryCount');
+
+function loadMorePhotos() {
+    const end = Math.min(loadedCount + BATCH_SIZE, allPhotos.length);
+    for (let i = loadedCount; i < end; i++) {
+        const item = document.createElement('div');
+        item.className = 'gallery-item scroll-reveal';
+        item.setAttribute('data-index', i);
+        item.addEventListener('click', () => openLightbox(i));
+        const img = document.createElement('img');
+        img.src = 'images/' + allPhotos[i];
+        img.alt = 'Belmin Drive Photo ' + (i + 1);
+        img.loading = 'lazy';
+        item.appendChild(img);
+        galleryGrid.appendChild(item);
+        // Trigger reveal animation
+        setTimeout(() => item.classList.add('visible'), 50 * (i - loadedCount));
+    }
+    loadedCount = end;
+    galleryCountEl.textContent = `Showing ${loadedCount} of ${allPhotos.length} photos`;
+    if (loadedCount >= allPhotos.length) {
+        loadMoreBtn.style.display = 'none';
+    }
+}
+// Load initial batch
+loadMorePhotos();
+
+// ========== LIGHTBOX ==========
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const lightboxCounter = document.getElementById('lightboxCounter');
+let currentLightboxIndex = 0;
+
+function openLightbox(index) {
+    currentLightboxIndex = index;
+    lightboxImg.src = 'images/' + allPhotos[index];
+    lightboxCounter.textContent = `${index + 1} / ${allPhotos.length}`;
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+function navigateLightbox(dir) {
+    currentLightboxIndex += dir;
+    if (currentLightboxIndex < 0) currentLightboxIndex = allPhotos.length - 1;
+    if (currentLightboxIndex >= allPhotos.length) currentLightboxIndex = 0;
+    lightboxImg.style.animation = 'none';
+    lightboxImg.offsetHeight; // trigger reflow
+    lightboxImg.style.animation = 'zoomIn 0.3s ease';
+    lightboxImg.src = 'images/' + allPhotos[currentLightboxIndex];
+    lightboxCounter.textContent = `${currentLightboxIndex + 1} / ${allPhotos.length}`;
+}
+
+// Close on background click
+lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+});
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navigateLightbox(-1);
+    if (e.key === 'ArrowRight') navigateLightbox(1);
+});
+
+// ========== COOL ELEMENTS ==========
+
+// 1. Scroll Progress Bar
+window.addEventListener('scroll', () => {
+    const scrollProgress = document.getElementById('scrollProgress');
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollPercent = (scrollTop / docHeight) * 100;
+    scrollProgress.style.width = scrollPercent + '%';
+});
+
+// 2. Back to Top Button
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 500) {
+        backToTop.classList.add('visible');
+    } else {
+        backToTop.classList.remove('visible');
+    }
+});
+backToTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// 3. Floating Particles
+const canvas = document.getElementById('particles-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+class Particle {
+    constructor() {
+        this.reset();
+    }
+    reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 0.5;
+        this.speedX = (Math.random() - 0.5) * 0.3;
+        this.speedY = (Math.random() - 0.5) * 0.3;
+        this.opacity = Math.random() * 0.5 + 0.1;
+    }
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+            this.reset();
+        }
+    }
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(124, 179, 66, ${this.opacity})`;
+        ctx.fill();
+    }
+}
+
+for (let i = 0; i < 50; i++) {
+    particles.push(new Particle());
+}
+
+function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+        p.update();
+        p.draw();
+    });
+    // Draw lines between close particles
+    for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 120) {
+                ctx.beginPath();
+                ctx.strokeStyle = `rgba(124, 179, 66, ${0.06 * (1 - dist / 120)})`;
+                ctx.lineWidth = 0.5;
+                ctx.moveTo(particles[i].x, particles[i].y);
+                ctx.lineTo(particles[j].x, particles[j].y);
+                ctx.stroke();
+            }
+        }
+    }
+    requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// 4. Cursor Glow Effect
+const cursorGlow = document.getElementById('cursorGlow');
+document.addEventListener('mousemove', (e) => {
+    cursorGlow.style.left = e.clientX + 'px';
+    cursorGlow.style.top = e.clientY + 'px';
+    cursorGlow.style.opacity = '1';
+});
+
+document.addEventListener('mouseenter', () => {
+    cursorGlow.style.opacity = '1';
+});
+
+document.addEventListener('mouseleave', () => {
+    cursorGlow.style.opacity = '0';
+});
+
+// Hide cursor when clicking links/buttons (optional but adds premium feel)
+document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => cursorGlow.style.transform = 'translate(-50%, -50%) scale(1.5)');
+    el.addEventListener('mouseleave', () => cursorGlow.style.transform = 'translate(-50%, -50%) scale(1)');
+});
+
+// 5. Tilt effect on cards
+const tiltCards = document.querySelectorAll('.feature-card, .review-card, .contact-card');
+tiltCards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -5;
+        const rotateY = ((x - centerX) / centerX) * 5;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+    });
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+    });
+});
+
+// 6. Magnetic hover effect on CTA buttons
+const magneticBtns = document.querySelectorAll('.btn-primary, .action-btn');
+magneticBtns.forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+        btn.style.transform = 'translate(0, 0)';
+    });
+});
+// Check if the browser supports scroll restoration
+if (history.scrollRestoration) {
+    history.scrollRestoration = 'manual';
+}
+
+// Force the window to scroll to the top-left (0,0) on page load
+window.onbeforeunload = function () {
+    window.scrollTo(0, 0);
+};
+    </script>
+</body>
+</html>
